@@ -28,51 +28,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [toast, setToast] = useState<{ msg: string; type: "ok" | "err" } | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // ── inject cursor ────────────────────────────────────────────
-  useEffect(() => {
-    const dot = document.getElementById("snd-dot");
-    const ring = document.getElementById("snd-ring");
-    const trail = document.getElementById("snd-trail");
-    if (!dot || !ring || !trail) return;
-
-    let mx = 0, my = 0, rx = 0, ry = 0, tx = 0, ty = 0, raf = 0;
-    const move = (e: MouseEvent) => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + "px"; dot.style.top = my + "px";
-    };
-    const tick = () => {
-      rx += (mx - rx) * .13; ry += (my - ry) * .13;
-      ring.style.left = rx + "px"; ring.style.top = ry + "px";
-      tx += (mx - tx) * .07; ty += (my - ty) * .07;
-      trail.style.left = tx + "px"; trail.style.top = ty + "px";
-      raf = requestAnimationFrame(tick);
-    };
-    tick();
-    const dn = () => document.body.classList.add("snd-click");
-    const up = () => document.body.classList.remove("snd-click");
-    const clk = (e: MouseEvent) => {
-      const r = document.createElement("div"); r.className = "snd-ripple";
-      r.style.left = e.clientX + "px"; r.style.top = e.clientY + "px";
-      document.body.appendChild(r); setTimeout(() => r.remove(), 700);
-    };
-    const hi = () => document.body.classList.add("snd-hover");
-    const ho = () => document.body.classList.remove("snd-hover");
-    document.querySelectorAll("button,a,input,select,textarea").forEach(el => {
-      el.addEventListener("mouseenter", hi); el.addEventListener("mouseleave", ho);
-    });
-    document.addEventListener("mousemove", move);
-    document.addEventListener("mousedown", dn);
-    document.addEventListener("mouseup", up);
-    document.addEventListener("click", clk);
-    return () => {
-      cancelAnimationFrame(raf);
-      document.removeEventListener("mousemove", move);
-      document.removeEventListener("mousedown", dn);
-      document.removeEventListener("mouseup", up);
-      document.removeEventListener("click", clk);
-    };
-  }, []);
-
   // ── body class ───────────────────────────────────────────────
   useEffect(() => {
     document.body.classList.add("snd");
@@ -122,11 +77,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <>
-      {/* Cursor */}
-      <div id="snd-trail" />
-      <div id="snd-ring" />
-      <div id="snd-dot" />
-
       {/* Background */}
       <div className="snd-bg">
         <div className="snd-grid" />

@@ -235,107 +235,8 @@ body {
   text-transform:uppercase;
 }
 
-/* ── Custom Cursor ─────────────────────────────────────────── */
-body { cursor: none; }
-a, button, [data-cursor] { cursor: none; }
-
-#sn-cur-dot {
-  position: fixed; top: 0; left: 0; z-index: 99999;
-  width: 6px; height: 6px;
-  background: #fff;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: width .12s ease, height .12s ease, background .2s ease, opacity .2s ease;
-  mix-blend-mode: difference;
-  will-change: transform;
-}
-
-#sn-cur-ring {
-  position: fixed; top: 0; left: 0; z-index: 99998;
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  will-change: transform;
-  transition: width .3s cubic-bezier(.25,.46,.45,.94),
-              height .3s cubic-bezier(.25,.46,.45,.94),
-              border-color .25s ease,
-              background .25s ease,
-              opacity .2s ease;
-  border: 1.5px solid rgba(99,102,241,0.7);
-  background: transparent;
-}
-
-#sn-cur-trail {
-  position: fixed; top: 0; left: 0; z-index: 99997;
-  width: 60px; height: 60px;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  will-change: transform;
-  background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
-  transition: opacity .3s ease;
-}
-
-/* hover state — grows ring, dot turns pink */
-.sn-hover #sn-cur-dot {
-  width: 10px; height: 10px;
-  background: #ec4899;
-}
-.sn-hover #sn-cur-ring {
-  width: 56px; height: 56px;
-  border-color: rgba(236,72,153,0.6);
-  background: rgba(236,72,153,0.06);
-}
-
-/* click state */
-.sn-click #sn-cur-dot {
-  width: 16px; height: 16px;
-  background: #a855f7;
-}
-.sn-click #sn-cur-ring {
-  width: 28px; height: 28px;
-  border-color: rgba(168,85,247,0.8);
-  background: rgba(168,85,247,0.12);
-}
-
-/* cursor ripple burst on click */
-.sn-ripple {
-  position: fixed; z-index: 99996; border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%) scale(0);
-  border: 1px solid rgba(99,102,241,0.5);
-  width: 10px; height: 10px;
-  animation: snRippleBurst .65s cubic-bezier(.2,.6,.4,1) forwards;
-}
-@keyframes snRippleBurst {
-  0%   { transform: translate(-50%,-50%) scale(0); opacity: 1; }
-  100% { transform: translate(-50%,-50%) scale(14); opacity: 0; }
-}
-
-/* magnetic label that appears next to cursor on certain elements */
-#sn-cur-label {
-  position: fixed; z-index: 99995;
-  pointer-events: none;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: .72rem; font-weight: 600;
-  color: #fff; letter-spacing: .04em;
-  background: rgba(99,102,241,0.9);
-  backdrop-filter: blur(8px);
-  padding: 4px 10px; border-radius: 20px;
-  white-space: nowrap;
-  opacity: 0; transform: translate(16px, -50%) scale(0.85);
-  transition: opacity .2s ease, transform .2s ease;
-  top: 0; left: 0;
-}
-#sn-cur-label.sn-label-vis {
-  opacity: 1; transform: translate(16px, -50%) scale(1);
-}
-
 /* hide cursor on mobile */
 @media (hover: none) {
-  #sn-cur-dot, #sn-cur-ring, #sn-cur-trail, #sn-cur-label { display: none !important; }
   body { cursor: auto; }
   a, button { cursor: pointer; }
 }
@@ -397,83 +298,9 @@ export default function SplitNestLanding() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // ── Custom Cursor ───────────────────────────────────────────────────────────
+  // ── Scroll to Top Fix ──────────────────────────────────────────────────
   useEffect(() => {
-    const dot = document.getElementById("sn-cur-dot");
-    const ring = document.getElementById("sn-cur-ring");
-    const trail = document.getElementById("sn-cur-trail");
-    const label = document.getElementById("sn-cur-label");
-    if (!dot || !ring || !trail || !label) return;
-
-    let mx = 0, my = 0;           // real mouse position
-    let rx = 0, ry = 0;           // ring (lagging)
-    let tx = 0, ty = 0;           // trail (more lagging)
-    let raf = 0;
-
-    const onMove = (e: MouseEvent) => {
-      mx = e.clientX; my = e.clientY;
-      // dot follows instantly via style (no lag)
-      dot.style.left = mx + "px";
-      dot.style.top = my + "px";
-      // label follows dot
-      label.style.left = mx + "px";
-      label.style.top = my + "px";
-    };
-
-    const animate = () => {
-      // ring lags behind mouse
-      rx += (mx - rx) * 0.13;
-      ry += (my - ry) * 0.13;
-      ring.style.left = rx + "px";
-      ring.style.top = ry + "px";
-      // trail lags even more
-      tx += (mx - tx) * 0.07;
-      ty += (my - ty) * 0.07;
-      trail.style.left = tx + "px";
-      trail.style.top = ty + "px";
-      raf = requestAnimationFrame(animate);
-    };
-    animate();
-
-    const onDown = () => document.body.classList.add("sn-click");
-    const onUp = () => document.body.classList.remove("sn-click");
-
-    const onClick = (e: MouseEvent) => {
-      const r = document.createElement("div");
-      r.className = "sn-ripple";
-      r.style.left = e.clientX + "px";
-      r.style.top = e.clientY + "px";
-      document.body.appendChild(r);
-      setTimeout(() => r.remove(), 700);
-    };
-
-    // interactive element detection
-    const addHover = (el: Element) => {
-      el.addEventListener("mouseenter", () => {
-        document.body.classList.add("sn-hover");
-        const tip = (el as HTMLElement).dataset.cursor;
-        if (tip) { label.textContent = tip; label.classList.add("sn-label-vis"); }
-      });
-      el.addEventListener("mouseleave", () => {
-        document.body.classList.remove("sn-hover");
-        label.classList.remove("sn-label-vis");
-      });
-    };
-
-    document.querySelectorAll("a, button, [data-cursor]").forEach(addHover);
-
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("mouseup", onUp);
-    document.addEventListener("click", onClick);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("mouseup", onUp);
-      document.removeEventListener("click", onClick);
-    };
+    window.scrollTo(0, 0);
   }, []);
 
   // inject styles once
@@ -500,10 +327,7 @@ export default function SplitNestLanding() {
 
   return (
     <>
-      <div id="sn-cur-trail" />
-      <div id="sn-cur-ring" />
-      <div id="sn-cur-dot" />
-      <div id="sn-cur-label" />
+      {/* Global Cursor handled by RootLayout */}
 
       {/* NAVBAR */}
       <nav className={`sn2-nav${scrolled ? " sn2-scrolled" : ""}`}>

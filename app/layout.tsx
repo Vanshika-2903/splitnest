@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   keywords: ["expense splitting", "split bills", "group expenses", "money management", "SplitNest"],
 };
 
-import GlobalCursor from "@/src/components/GlobalCursor";
+import CustomCursor from "@/src/components/CustomCursor";
 import { ThemeProvider } from "@/src/components/ThemeProvider";
 
 export default function RootLayout({
@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <GlobalCursor />
+          <CustomCursor />
           {children}
         </ThemeProvider>
       </body>

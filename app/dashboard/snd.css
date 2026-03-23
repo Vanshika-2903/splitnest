@@ -77,128 +77,6 @@ body.snd *::-webkit-scrollbar-thumb {
   border-radius: 3px;
 }
 
-/* ── Cursor ───────────────────────────────────────────────────── */
-#snd-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-  pointer-events: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #fff;
-  transform: translate(-50%, -50%);
-  transition: width .15s cubic-bezier(.23, 1, .32, 1), height .15s cubic-bezier(.23, 1, .32, 1), background .2s ease;
-  mix-blend-mode: difference;
-  will-change: transform;
-}
-
-#snd-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99998;
-  pointer-events: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(99, 102, 241, .7);
-  transform: translate(-50%, -50%);
-  will-change: transform;
-  transition: width .32s cubic-bezier(.25, .46, .45, .94),
-    height .32s cubic-bezier(.25, .46, .45, .94),
-    border-color .25s, background .25s, box-shadow .25s;
-}
-
-#snd-trail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99997;
-  pointer-events: none;
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(99, 102, 241, .1), transparent 70%);
-  transform: translate(-50%, -50%);
-  will-change: transform;
-  transition: width .4s ease, height .4s ease;
-}
-
-.snd-hover #snd-dot {
-  width: 14px;
-  height: 14px;
-  background: #a855f7;
-  mix-blend-mode: normal;
-}
-
-.snd-hover #snd-ring {
-  width: 54px;
-  height: 54px;
-  border-color: rgba(168, 85, 247, .65);
-  background: rgba(168, 85, 247, .06);
-  box-shadow: 0 0 20px rgba(168, 85, 247, .15);
-}
-
-.snd-hover #snd-trail {
-  width: 120px;
-  height: 120px;
-}
-
-.snd-click #snd-dot {
-  width: 20px;
-  height: 20px;
-  background: #6366f1;
-  mix-blend-mode: normal;
-}
-
-.snd-click #snd-ring {
-  width: 28px;
-  height: 28px;
-  box-shadow: 0 0 30px rgba(99, 102, 241, .3);
-}
-
-.snd-ripple {
-  position: fixed;
-  z-index: 99996;
-  border-radius: 50%;
-  pointer-events: none;
-  width: 8px;
-  height: 8px;
-  border: 1.5px solid rgba(99, 102, 241, .5);
-  transform: translate(-50%, -50%) scale(0);
-  animation: sndRipple .65s cubic-bezier(.2, .6, .4, 1) forwards;
-}
-
-@keyframes sndRipple {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(18);
-    opacity: 0;
-  }
-}
-
-@media(hover:none) {
-
-  #snd-dot,
-  #snd-ring,
-  #snd-trail {
-    display: none !important;
-  }
-
-  body.snd,
-  body.snd button,
-  body.snd input,
-  body.snd select {
-    cursor: auto !important;
-  }
-}
-
 /* ── Background ──────────────────────────────────────────────── */
 .snd-bg {
   position: fixed;
@@ -346,13 +224,14 @@ body.snd *::-webkit-scrollbar-thumb {
   letter-spacing: -.4px;
   background: linear-gradient(135deg, #1e293b, #4f46e5);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .dark .snd-logo-txt {
   background: linear-gradient(135deg, #e2e8f0, #a5b4fc);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
