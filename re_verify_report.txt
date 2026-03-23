@@ -1,0 +1,7 @@
+--- RE-VERIFICATION ATTEMPT ---
+Time: 2026-03-17T15:15:07.786Z
+[FAIL] groups: PGRST205 - Could not find the table 'public.groups' in the schema cache
+[PASS] expenses exists.
+       [ERROR] 'title' column missing
+[FAIL] expense_splits: PGRST205 - Could not find the table 'public.expense_splits' in the schema cache
+[PASS] profiles exists.

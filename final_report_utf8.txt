@@ -1,0 +1,6 @@
+--- DETAILED VERIFICATION ---
+[FAIL] groups: Could not find the table 'public.groups' in the schema cache
+[PASS] expenses exists.
+       [ERROR] 'title' column missing (OLD SCHEMA detected!)
+[FAIL] expense_splits: Could not find the table 'public.expense_splits' in the schema cache
+[PASS] profiles exists.

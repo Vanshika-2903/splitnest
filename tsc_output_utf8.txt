@@ -1,0 +1,1 @@
+﻿src/lib/supabase.ts(331,1): error TS1005: '}' expected.

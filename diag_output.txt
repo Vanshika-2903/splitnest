@@ -1,0 +1,13 @@
+Checking Supabase URL: https://slufwfznzckuyiykmkvu.supabase.co
+Table 'groups' error: Could not find the table 'public.groups' in the schema cache
+Table 'expenses' exists. Found 0 row(s).
+  Column 'amount' exists in expenses
+  Column 'title' missing in expenses: column expenses.title does not exist
+  Column 'paid_by' missing in expenses: column expenses.paid_by does not exist
+  Column 'group_id' missing in expenses: column expenses.group_id does not exist
+Table 'expense_splits' error: Could not find the table 'public.expense_splits' in the schema cache
+Table 'profiles' exists. Found 0 row(s).
+  Column 'amount' missing in profiles: column profiles.amount does not exist
+  Column 'title' missing in profiles: column profiles.title does not exist
+  Column 'paid_by' missing in profiles: column profiles.paid_by does not exist
+  Column 'group_id' missing in profiles: column profiles.group_id does not exist

@@ -1,0 +1,8 @@
+--- FINAL PROJECT VERIFICATION ---
+Project ID: lacpfemvtuychruezjrn
+Time: 2026-03-14T18:35:33.399Z
+[PASS] groups exists.
+[PASS] expenses exists.
+       [OK] 'title' column found
+[PASS] expense_splits exists.
+[PASS] profiles exists.
